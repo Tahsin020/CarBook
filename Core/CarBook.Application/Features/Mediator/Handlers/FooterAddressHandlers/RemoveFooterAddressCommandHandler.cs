@@ -1,0 +1,21 @@
+﻿using CarBook.Application.Features.Mediator.Commands.FooterAddressCommands;
+using CarBook.Application.Interfaces;
+using CarBook.Domain.Entities;
+using MediatR;
+
+namespace CarBook.Application.Features.Mediator.Handlers.FooterAddressHandlers;
+public sealed class RemoveFooterAddressCommandHandler : IRequestHandler<RemoveFooterAddressCommand>
+{
+    private readonly IRepository<FooterAddress> _repository;
+
+    public RemoveFooterAddressCommandHandler(IRepository<FooterAddress> repository)
+    {
+        _repository = repository;
+    }
+
+    public async Task Handle(RemoveFooterAddressCommand request, CancellationToken cancellationToken)
+    {
+        FooterAddress footerAddress = await _repository.GetByIdAsync(request.Id);
+        await _repository.RemoveAsync(footerAddress);
+    }
+}
