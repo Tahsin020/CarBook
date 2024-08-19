@@ -10,4 +10,6 @@ public sealed class GetAllBlogsWithAuthorQueryResult
     public int CategoryId { get; set; }
     public string CategoryName { get; set; }
     public string Description { get; set; }
+    public string AuthorDescription { get; set; }
+    public string AuthorImage { get; set; }
 }

@@ -5,4 +5,5 @@ public interface IBlogRepository
 {
     List<Blog> GetLast3BlogsWithAuthors();
     List<Blog> GetAllBlogsWithAuthors();
+    List<Blog> GetBlogByAuthorId(int id);
 }
