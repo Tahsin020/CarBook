@@ -44,10 +44,10 @@ public class BannersController : ControllerBase
         return Ok("Reklam bilgisi Eklendi");
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> RemoveBanner(RemoveBannerCommand command)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> RemoveBanner(int id)
     {
-        await _removeBannerCommandHandler.Handle(command);
+        await _removeBannerCommandHandler.Handle(new RemoveBannerCommand(id));
         return Ok("Reklam bilgisi Silindi");
     }
 

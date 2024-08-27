@@ -33,6 +33,7 @@ public class CarsController : ControllerBase
         var values = await _getCarQueryHandler.Handle();
         return Ok(values);
     }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCar(int id)
     {
@@ -53,11 +54,12 @@ public class CarsController : ControllerBase
         await _updateCarCommandHandler.Handle(command);
         return Ok("Araç bilgisi güncellendi");
     }
-    [HttpDelete]
-    public async Task<IActionResult> RemoveCar(RemoveCarCommand command)
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> RemoveCar(int id)
     {
-        await _removeCarCommandHandler.Handle(command);
-        return Ok("Araç bilgisi silinid");
+        await _removeCarCommandHandler.Handle(new RemoveCarCommand(id));
+        return Ok("Araç bilgisi silindi");
     }
 
     [HttpGet("GetCarWithBrand")]
@@ -66,6 +68,7 @@ public class CarsController : ControllerBase
         var value = _getCarWithBrandQueryHandler.Handle();
         return Ok(value);
     }
+
     [HttpGet("GetLast5CarsWithBrand")]
     public IActionResult GetLast5CarsWithBrand()
     {
