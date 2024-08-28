@@ -44,10 +44,10 @@ public class AboutsController : ControllerBase
         return Ok("Hakkımda bilgisi Eklendi");
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> RemoveAbout(RemoveAboutCommand command)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> RemoveAbout(int id)
     {
-        await _removeAboutCommandHandler.Handle(command);
+        await _removeAboutCommandHandler.Handle(new RemoveAboutCommand(id));
         return Ok("Hakkımda bilgisi Silindi");
     }
 

@@ -80,13 +80,13 @@ public class AdminBannerController : Controller
     }
 
     [HttpPost]
-    [Route("UpdateBanner")]
+    [Route("UpdateBanner/{id}")]
     public async Task<IActionResult> UpdateBanner(UpdateBannerDto updateBannerDto)
     {
         var client = _httpClientFactory.CreateClient();
         var jsonData = JsonConvert.SerializeObject(updateBannerDto);
         StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-        var responseMessage = await client.PutAsync("https://localhost:7209/api/Brands/", stringContent);
+        var responseMessage = await client.PutAsync("https://localhost:7209/api/Banners/", stringContent);
         if (responseMessage.IsSuccessStatusCode)
         {
             return RedirectToAction("Index", "AdminBanner", new { area = "Admin" });
