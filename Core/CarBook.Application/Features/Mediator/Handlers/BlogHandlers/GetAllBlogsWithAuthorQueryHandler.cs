@@ -28,6 +28,7 @@ public sealed class GetAllBlogsWithAuthorQueryHandler : IRequestHandler<GetAllBl
             Description = x.Description,
             AuthorDescription = x.Author.Description,
             AuthorImage = x.Author.ImageUrl,
+            CategoryName = x.Category.Name,
         }).ToList();
     }
 }

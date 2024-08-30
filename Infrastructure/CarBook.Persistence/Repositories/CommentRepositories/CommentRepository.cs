@@ -3,7 +3,7 @@ using CarBook.Domain.Entities;
 using CarBook.Persistence.Context;
 
 namespace CarBook.Persistence.Repositories.CommentRepositories;
-public sealed class CommentRepository<T> : IGenericRepository<Comment>
+public class CommentRepository<T> : IGenericRepository<Comment>
 {
     private readonly CarBookContext _context;
 
@@ -20,7 +20,14 @@ public sealed class CommentRepository<T> : IGenericRepository<Comment>
 
     public List<Comment> GetAll()
     {
-        return _context.Comments.ToList();
+        return _context.Comments.Select(x => new Comment
+        {
+            Id = x.Id,
+            BlogId = x.BlogId,
+            CreatedDate = x.CreatedDate,
+            Description = x.Description,
+            Name = x.Name
+        }).ToList();
     }
 
     public Comment GetById(int id)
@@ -28,9 +35,16 @@ public sealed class CommentRepository<T> : IGenericRepository<Comment>
         return _context.Comments.Find(id);
     }
 
+    public List<Comment> GetCommentsByBlogId(int id)
+    {
+        var values = _context.Comments.Where(x => x.BlogId == id).ToList();
+        return values;
+    }
+
     public void Remove(Comment entity)
     {
-        _context.Comments.Remove(entity);
+        var value = _context.Comments.Find(entity.Id);
+        _context.Comments.Remove(value);
         _context.SaveChanges();
     }
 

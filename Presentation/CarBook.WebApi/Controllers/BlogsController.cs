@@ -44,7 +44,7 @@ public class BlogsController : ControllerBase
         await _mediator.Send(command);
         return Ok("Blog başarıyla güncellendi");
     }
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> RemoveBlog(int id)
     {
         await _mediator.Send(new RemoveBlogCommand(id));
@@ -64,7 +64,7 @@ public class BlogsController : ControllerBase
         var value = await _mediator.Send(new GetAllBlogsWithAuthorQuery());
         return Ok(value);
     }
-    
+
     [HttpGet("GetBlogByAuthorId")]
     public async Task<IActionResult> GetBlogByAuthorId(int id)
     {

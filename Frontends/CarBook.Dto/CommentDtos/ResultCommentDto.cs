@@ -1,10 +1,9 @@
-﻿namespace CarBook.Domain.Entities;
-public class Comment
+﻿namespace CarBook.Dto.CommentDtos;
+public sealed class ResultCommentDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
     public DateTime CreatedDate { get; set; }
     public string Description { get; set; }
     public int BlogId { get; set; }
-    public Blog Blog { get; set; }
 }

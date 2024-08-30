@@ -9,6 +9,11 @@ public class CommentsController : ControllerBase
 {
     private readonly IGenericRepository<Comment> _repository;
 
+    public CommentsController(IGenericRepository<Comment> repository)
+    {
+        _repository = repository;
+    }
+
     [HttpGet]
     public IActionResult CommentList()
     {
@@ -31,7 +36,7 @@ public class CommentsController : ControllerBase
         return Ok("Yorum Başarıyla eklendi");
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public IActionResult RemoveComment(int id)
     {
         var value = _repository.GetById(id);
@@ -44,5 +49,11 @@ public class CommentsController : ControllerBase
     {
         _repository.Create(comment);
         return Ok("Yorum Başarıyla güncellendi");
+    }
+    [HttpGet("CommmentListByBlog")]
+    public IActionResult GetCommentsByBlogId(int id)
+    {
+        var value = _repository.GetCommentsByBlogId(id);
+        return Ok(value);
     }
 }

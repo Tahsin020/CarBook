@@ -1,41 +1,40 @@
-﻿using CarBook.Dto.BlogDtos;
+﻿using CarBook.Dto.CommentDtos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Text;
 
 namespace CarBook.WebUI.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Route("Admin/AdminBlog")]
-public class AdminBlogController : Controller
+[Route("Admin/AdminComment")]
+public class AdminCommentController : Controller
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public AdminBlogController(IHttpClientFactory httpClientFactory)
+    public AdminCommentController(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
     }
 
-    [Route("Index")]
-    public async Task<IActionResult> Index()
+    [Route("Index/{id}")]
+    public async Task<IActionResult> Index(int id)
     {
+        ViewBag.v = id;
         var client = _httpClientFactory.CreateClient();
-        var responseMessage = await client.GetAsync("https://localhost:7209/api/Blogs/GetAllBlogsWithAuthors");
+        var responseMessage = await client.GetAsync("https://localhost:7209/api/Comments/CommmentListByBlog?id=" + id);
         if (responseMessage.IsSuccessStatusCode)
         {
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
-            var values = JsonConvert.DeserializeObject<List<ResultBlogsWithAuthors>>(jsonData);
+            var values = JsonConvert.DeserializeObject<List<ResultCommentDto>>(jsonData);
             return View(values);
         }
         return View();
     }
 
-
-    [Route("RemoveBlog/{id}")]
-    public async Task<IActionResult> RemoveBlog(int id)
+    [Route("RemoveComment/{id}")]
+    public async Task<IActionResult> RemoveComment(int id)
     {
         var client = _httpClientFactory.CreateClient();
-        var responseMessage = await client.DeleteAsync($"https://localhost:7209/api/Blogs/{id}");
+        var responseMessage = await client.DeleteAsync($"https://localhost:7209/api/Comments/{id}");
         if (responseMessage.IsSuccessStatusCode)
         {
             return RedirectToAction("Index", "AdminBlog", new { area = "Admin" });
